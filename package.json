@@ -1,0 +1,23 @@
+{
+  "name": "phonebook",
+  "version": "0.0.1",
+  "description": "part 3 exercises - phonebook backend",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/bistik/submissions_fso_part3"
+  },
+  "author": "Erick B",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
