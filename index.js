@@ -1,7 +1,18 @@
 const express = require('express')
+const morgan = require('morgan')
 const app = express()
 
 app.use(express.json())
+morgan.token('personbody', (req) => {
+  const personbody = req.body
+  if (req.method !== 'POST') {
+    return null
+  }
+  delete personbody.id
+  return JSON.stringify(personbody)
+})
+
+app.use(morgan(':method :url :status :total-time ms - :personbody'))
 
 const PORT = 3001
 
