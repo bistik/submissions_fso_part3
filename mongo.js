@@ -16,19 +16,19 @@ mongoose.set('strictQuery',false)
 
 mongoose.connect(url)
 
-const phonebookSchema = new mongoose.Schema({
+const personSchema = new mongoose.Schema({
   name: String,
   number: String,
 })
 
-const Phonebook = mongoose.model('Phonebook', phonebookSchema)
+const Person = mongoose.model('Person', personSchema)
 
-const phonebook = new Phonebook({
+const person = new Person({
   name: name,
   number: number
 })
 
-phonebook.save().then(result => {
+person.save().then(result => {
   console.log(`added ${name} number ${number} to phonebook`)
   mongoose.connection.close()
 })

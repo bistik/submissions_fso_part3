@@ -1,6 +1,8 @@
+require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
+const Person = require("./models/person")
 const app = express()
 
 app.use(express.json())
@@ -47,16 +49,15 @@ app.get('/', (request, response) => {
 })
 
 app.get('/api/persons', (request, response) => {
-    response.json(persons)
+  Person.find({}).then(notes => {
+    response.json(notes)
+  })
 })
 
 app.get('/api/persons/:id', (request, response) => {
-  const id = request.params.id
-  const person = persons.find(p => p.id === id)
-  if (person) {
+  Person.findById(request.params.id).then(person => {
     response.json(person)
-  }
-  response.status(404).end()
+  })
 })
 
 app.delete('/api/persons/:id', (request, response) => {
@@ -67,20 +68,20 @@ app.delete('/api/persons/:id', (request, response) => {
 })
 
 app.post('/api/persons', (request, response) => {
-  const person = request.body
-  if (!person.name) {
+  const body = request.body
+  if (!body.name) {
     return response.status(400).json({'error': 'missing name'})
   }
-  if (!person.number) {
+  if (!body.number) {
     return response.status(400).json({'error': 'missing number'})
   }
-  if (persons.find(p => p.name === person.name)) {
-    return response.status(400).json({'error': 'name already exists'})
-  }
-  person.id = Math.round(Math.random() * 100000)
-  persons = persons.concat(person)
-
-  response.json(person)
+  const person = new Person({
+    name: body.name,
+    number: body.number
+  })
+  person.save().then(person => {
+    return response.json(person)
+  })
 })
 
 app.get('/info', (request, response) => {
