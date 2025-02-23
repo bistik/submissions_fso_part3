@@ -5,9 +5,6 @@ const cors = require('cors')
 const Person = require("./models/person")
 const app = express()
 const errorHandler = (error, request, response, next) => {
-  console.log('ERROR !!!!', error.name)
-  console.error(error.message, error.name)
-
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
   } else if (error.name === 'ValidationError') {
@@ -70,7 +67,7 @@ app.post('/api/persons', (request, response, next) => {
     name: body.name,
     number: body.number
   })
-  person.save().then(person => {
+  person.save({runValidators: true}).then(person => {
     return response.json(person)
   }).catch(error => next(error))
 })
@@ -90,7 +87,7 @@ app.put('/api/persons/:id', (request, response, next) => {
     number: body.number
   }
 
-  Person.findByIdAndUpdate(request.params.id, person, { new: true })
+  Person.findByIdAndUpdate(request.params.id, person, { new: true, runValidators: true })
     .then(updatedPerson => {
       response.json(updatedPerson)
     })

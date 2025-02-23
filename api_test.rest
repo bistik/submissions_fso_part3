@@ -24,3 +24,12 @@ Content-Type: application/json
     "name": "Te",
     "number": "78-89-10054"
 }
+
+####
+POST http://localhost:3001/api/persons HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Invalid number",
+    "number": "1-123"
+}
