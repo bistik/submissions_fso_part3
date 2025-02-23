@@ -2,7 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
-const Person = require("./models/person")
+const Person = require('./models/person')
 const app = express()
 const errorHandler = (error, request, response, next) => {
   if (error.name === 'CastError') {
@@ -31,7 +31,7 @@ app.use(morgan(':method :url :status :total-time ms - :personbody'))
 const PORT = process.env.PORT || 3001
 
 app.get('/', (request, response) => {
-    response.send('<h1>Hello Phonebook!</h1>')
+  response.send('<h1>Hello Phonebook!</h1>')
 })
 
 app.get('/api/persons', (request, response) => {
@@ -44,12 +44,12 @@ app.get('/api/persons/:id', (request, response, next) => {
   Person.findById(request.params.id).then(person => {
     response.json(person)
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)
-    .then(result => {
+    .then(() => {
       response.status(204).end()
     })
     .catch(error => next(error))
@@ -58,16 +58,16 @@ app.delete('/api/persons/:id', (request, response, next) => {
 app.post('/api/persons', (request, response, next) => {
   const body = request.body
   if (!body.name) {
-    return response.status(400).json({'error': 'missing name'})
+    return response.status(400).json({ 'error': 'missing name' })
   }
   if (!body.number) {
-    return response.status(400).json({'error': 'missing number'})
+    return response.status(400).json({ 'error': 'missing number' })
   }
   const person = new Person({
     name: body.name,
     number: body.number
   })
-  person.save({runValidators: true}).then(person => {
+  person.save({ runValidators: true }).then(person => {
     return response.json(person)
   }).catch(error => next(error))
 })

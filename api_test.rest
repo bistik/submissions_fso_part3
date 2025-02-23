@@ -14,14 +14,14 @@ GET http://localhost:3001/api/persons/67b7213384643a71b550bde0
 
 ####
 
-DELETE http://localhost:3001/api/persons/1
+DELETE http://localhost:3001/api/persons/67bab4e039400de072215c73
 
 ####
 POST http://localhost:3001/api/persons HTTP/1.1
 Content-Type: application/json
 
 {
-    "name": "Te",
+    "name": "Test",
     "number": "78-89-10054"
 }
 
